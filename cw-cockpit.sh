@@ -22,7 +22,6 @@ curl -s -f -H "X-API-Key: ${KEY_API_KEY}" \
 	"${BASE_URL}/download/privatekeys/${CERT_NAME}" > "/tmp/$CERT_NAME.key"
 #      echo "Download complete"
 
-
 # 2a. Verify the download succeeded and is not an empty file
 if [ ! -s "/tmp/$CERT_NAME.cert" ]; then
     echo "Error: Failed to fetch certificate from Cert Warden or file is empty."
@@ -39,16 +38,16 @@ fi
 
 # 3a. Securely copy to Cockpit's directory with the correct permissions and cleanup the temp files
 echo "Deploying to Cockpit..."
-cp "/tmp/${CERT_NAME}.cert" "{$TARGET_DIR}/${CERT_NAME}.cert"
-chmod 600  "{$TARGET_DIR}/${CERT_NAME}.cert"
-chown root:root  "{$TARGET_DIR}/${CERT_NAME}.cert"
+cp "/tmp/$CERT_NAME.cert" "$TARGET_DIR/$CERT_NAME.cert"
+chmod 600  "$TARGET_DIR/$CERT_NAME.cert"
+chown root:root  "$TARGET_DIR/$CERT_NAME.cert"
 rm -f "/tmp/$CERT_NAME.cert"
 
 #3b. Securely copy to Cockpit's directory with the correct permissions and cleanup the temp files
 echo "Deploying to Cockpit..."
-cp "$CERT_NAME.key" "{$TARGET_DIR}/${CERT_NAME}.key"
-chmod 600 "{$TARGET_DIR}/${CERT_NAME}.key"
-chown root:root "{$TARGET_DIR}/${CERT_NAME}.key"
+cp "/tmp/$CERT_NAME.key" "$TARGET_DIR/$CERT_NAME.key"
+chmod 600 "$TARGET_DIR/$CERT_NAME.key"
+chown root:root "$TARGET_DIR/$CERT_NAME.key"
 rm -f "/tmp/$CERT_NAME.key"
 
 # 4. Force Cockpit to reload and capture the new certificate
